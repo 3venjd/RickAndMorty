@@ -7,8 +7,71 @@
     <h1 style="color:mediumaquamarine">Welcome to this dimension</h1>
 
     <img style="margin-left:auto; margin-right:auto;width:25vw; display:inline-block;" src="https://r1.abcimg.es/resizer/resizer.php?imagen=https%3A%2F%2Fs3.abcstatics.com%2Fmedia%2Fseries%2F000%2F003%2F130%2Frick-y-morty-1.jpg&nuevoancho=690&medio=abc" />
-
 </div>
 
+<div style="margin-top:10px">
+    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+        <option selected>Select season</option>
+        @for (int i = 1; i < 6; i++)
+        {
+            <option value="@i">Season @i</option>
+        }
+    </select>
+</div>
+<div>
+    <table class="table">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Air date</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Pilot</td>
+                <td>December 2, 2013</td>
+                <td>
+                    <a class="btn btn-info" href="/character">Characters</a>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Lawnmower Dog</td>
+                <td>December 9, 2013</td>
+                <td>
+                    <a class="btn btn-info" href="/character">Characters</a>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>Anatomy Park</td>
+                <td>December 16, 2013</td>
+                <td>
+                    <a class="btn btn-info" href="/character">Characters</a>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>M. Night Shaym-Aliens!</td>
+                <td>January 13, 2014</td>
+                <td>
+                    <a class="btn btn-info" href="/character">Characters</a>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>Meeseeks and Destroy</td>
+                <td>January 20, 2014</td>
+                <td>
+                    <a class="btn btn-info" href="/character">Characters</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
 
 @*<SurveyPrompt Title="How is Blazor working for you?" />*@

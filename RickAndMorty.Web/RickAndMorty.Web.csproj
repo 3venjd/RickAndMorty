@@ -16,4 +16,9 @@
     <ProjectReference Include="..\RickAndMorty.Shared\RickAndMorty.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\Location\" />
+    <Folder Include="Pages\Origin\" />
+  </ItemGroup>
+
 </Project>

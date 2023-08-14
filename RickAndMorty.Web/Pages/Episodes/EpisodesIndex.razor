@@ -18,7 +18,7 @@
                 </tr>
             </thead>
             <tbody>
-                @if (Episodes?.Count >= 0)
+                @*@if (Episodes?.Count >= 0)
                 {
                     @foreach (var episode in Episodes!)
                     {
@@ -32,36 +32,57 @@
                 else
                 {
                     <tr>Loading</tr>
-                }
-                
+                }*@
+
+            <tr>
+                <td>Pilot</td>
+                <td>S01E01</td>
+                <td>December 2, 2013</td>
+            </tr>
+            <tr>
+                <td>Lawnmower Dog</td>
+                <td>S01E02</td>
+                <td>December 9, 2013</td>
+            </tr>
+            <tr>
+                <td>Anatomy Park</td>
+                <td>S01E03</td>
+                <td>December 16, 2013</td>
+            </tr>
+            <tr>
+                <td>"M. Night Shaym-Aliens!</td>
+                <td>S01E04</td>
+                <td>January 13, 2014</td>
+            </tr>
+
 
             </tbody>
         </table>
     </body>
 
 @code {
-    public List<Episodes>? Episodes  { get; set; }
+    //public List<Episodes>? Episodes  { get; set; }
 
-    public List<Character>? Characters { get; set; }
+    //public List<Character>? Characters { get; set; }
 
-    protected override async Task OnInitializedAsync()
-    {
-        ConsumeAPI consumeAPI = new ConsumeAPI();
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    ConsumeAPI consumeAPI = new ConsumeAPI();
 
-        Episodes = await consumeAPI.ConsumeApiAsync<Episodes>("https://rickandmortyapi.com/api/episode");
+    //    Episodes = await consumeAPI.ConsumeApiAsync<Episodes>("https://rickandmortyapi.com/api/episode");
 
-        foreach (var episode in Episodes)
-        {
-            foreach (var character in episode.Characters!)
-            {
-                //Character episodeCharacter = new Character();
-                Characters = await consumeAPI.ConsumeApiAsync<Character>(character);
+    //    foreach (var episode in Episodes)
+    //    {
+    //        foreach (var character in episode.Characters!)
+    //        {
+    //            //Character episodeCharacter = new Character();
+    //            Characters = await consumeAPI.ConsumeApiAsync<Character>(character);
                 
-            }
+    //        }
             
-        }
+    //    }
 
-        Characters = await consumeAPI.ConsumeApiAsync<Character>("character");
-    }
+    //    Characters = await consumeAPI.ConsumeApiAsync<Character>("character");
+    //}
 
 }
