@@ -13,7 +13,7 @@ namespace RickAndMorty.Shared.Data
         public string? Name { get; set; }
         public string? Type { get; set; }
         public string? Dimension { get; set; }
-        public ICollection<Character>? Residents { get; set; }
+        public ICollection<Characters>? Residents { get; set; }
         public string? Url { get; set; }
         public DateTime Created { get; set; }
     }

@@ -1,6 +1,113 @@
 ﻿@page "/Location"
 
-<h3>Location</h3>
+<style>
+    section{
+        display: flex;
+        width: 600px;
+        height: 430px;
+    }
+    
+    section div{
+        margin: 0 0 0 5px;
+    }
+
+    section div img{
+        width: 150px;
+        flex-grow: 1;
+        object-fit: cover;
+        opacity: .8;
+        transition: .5s ease;
+    }
+
+    section div img:hover {
+            cursor: crosshair;
+        width: 300px;
+        opacity: 1;
+        filter: contrast(120%);
+    }
+
+</style>
+
+<h1>Earth (C-137)</h1>
+<h3>
+    Dimension C-137
+</h3>
+
+<h3>
+    Type: Planet
+
+</h3>
+
+<br />
+
+<h5>Residents</h5>
+
+<section >
+    <div>
+        <img class="sectionImages" src="https://rickandmortyapi.com/api/character/avatar/1.jpeg" />
+        <br />
+        <a>Rick Sanchez</a>
+    </div>
+    
+    <div>
+        <img class="sectionImages" src="https://rickandmortyapi.com/api/character/avatar/2.jpeg" />
+        <br />
+        <a>Morty Smith</a>
+    </div>
+
+    <div>
+        <img class="sectionImages" src="https://rickandmortyapi.com/api/character/avatar/3.jpeg" />
+        <br />
+        <a>Summer Smith</a>
+    </div>
+
+    <div>
+        <img class="sectionImages" src="https://rickandmortyapi.com/api/character/avatar/4.jpeg" />
+        <br />
+        <a>Beth Smith</a>
+    </div>
+
+    <div>
+        <img class="sectionImages" src="https://rickandmortyapi.com/api/character/avatar/5.jpeg" />
+        <br />
+        <a>Jerry Smith</a>
+    </div>
+</section>
+
+
+<h2>They born here</h2>
+
+<section>
+    <div>
+        <img class="sectionImages" src="https://rickandmortyapi.com/api/character/avatar/1.jpeg" />
+        <br />
+        <a>Rick Sanchez</a>
+    </div>
+
+    <div>
+        <img class="sectionImages" src="https://rickandmortyapi.com/api/character/avatar/2.jpeg" />
+        <br />
+        <a>Morty Smith</a>
+    </div>
+
+    <div>
+        <img class="sectionImages" src="https://rickandmortyapi.com/api/character/avatar/3.jpeg" />
+        <br />
+        <a>Summer Smith</a>
+    </div>
+
+    <div>
+        <img class="sectionImages" src="https://rickandmortyapi.com/api/character/avatar/4.jpeg" />
+        <br />
+        <a>Beth Smith</a>
+    </div>
+
+    <div>
+        <img class="sectionImages" src="https://rickandmortyapi.com/api/character/avatar/5.jpeg" />
+        <br />
+        <a>Jerry Smith</a>
+    </div>
+</section>
 
 @code {
 

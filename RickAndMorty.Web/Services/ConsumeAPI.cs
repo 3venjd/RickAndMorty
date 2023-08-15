@@ -6,12 +6,13 @@ namespace RickAndMorty.Web.Services
 {
     public class ConsumeAPI : IConsumeAPI
     {
-        public async Task<List<T>> ConsumeApiAsync<T>(string url)
+
+
+        public async Task<List<T>> GetDataAsync<T>(string data)
         {
             using (var httpClient = new HttpClient())
             {
-                //string fullUrl = $"https://rickandmortyapi.com/api/{url}";
-                using (var response = await httpClient.GetAsync(url))
+                using (var response = await httpClient.GetAsync($"https://rickandmortyapi.com/api/{data}"))
                 {
 
                     string apiResponse = await response.Content.ReadAsStringAsync();
@@ -30,6 +31,21 @@ namespace RickAndMorty.Web.Services
                     }
 
                     return a;
+                }
+            }
+        }
+
+        public async Task<int> GetTotalPagesAsync(string data)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync($"https://rickandmortyapi.com/api/{data}"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    JObject obj = JObject.Parse(apiResponse);
+                    var pres =  obj["info"]!["pages"]!;
+                    var  res = JsonConvert.DeserializeObject<int>(pres.ToString())!;
+                    return res;
                 }
             }
         }

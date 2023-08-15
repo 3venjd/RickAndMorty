@@ -1,4 +1,6 @@
 ﻿@page "/"
+@using RickAndMorty.Shared.Data;
+@using RickAndMorty.Web.Services;
 
 <PageTitle>Rick And Morty</PageTitle>
 
@@ -75,3 +77,42 @@
 </div>
 
 @*<SurveyPrompt Title="How is Blazor working for you?" />*@
+
+@code
+{
+    public List<Episode>? Episodes  { get; set; }
+
+    public List<Characters>? Character { get; set; }
+
+    int totalPages = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ConsumeAPI consumeAPI = new ConsumeAPI();
+
+        totalPages = await consumeAPI.GetTotalPagesAsync("episode");
+        Episodes = new List<Episode>();
+        if (totalPages >= 1)
+        {
+            for (int i = 1; i <= totalPages; i++)
+            {
+                Episodes!.AddRange(await consumeAPI.GetDataAsync<Episode>($"episode?page={i}"));
+            }
+        }
+
+         
+
+       //  foreach (var episode in Episodes!)
+       // {
+       //     foreach (var character in episode.ListCharacters!)
+       //     {
+       //         //Character episodeCharacter = new Character();
+       //          Character = await consumeAPI.ConsumeApiAsync<Characters>(character);
+
+       //      }
+
+       // }
+
+       // Character = await consumeAPI.ConsumeApiAsync<Characters>("character");
+    }
+}
