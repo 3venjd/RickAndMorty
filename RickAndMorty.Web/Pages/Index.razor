@@ -31,46 +31,26 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Pilot</td>
-                <td>December 2, 2013</td>
-                <td>
-                    <a class="btn btn-info" href="/character">Characters</a>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Lawnmower Dog</td>
-                <td>December 9, 2013</td>
-                <td>
-                    <a class="btn btn-info" href="/character">Characters</a>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Anatomy Park</td>
-                <td>December 16, 2013</td>
-                <td>
-                    <a class="btn btn-info" href="/character">Characters</a>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>M. Night Shaym-Aliens!</td>
-                <td>January 13, 2014</td>
-                <td>
-                    <a class="btn btn-info" href="/character">Characters</a>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Meeseeks and Destroy</td>
-                <td>January 20, 2014</td>
-                <td>
-                    <a class="btn btn-info" href="/character">Characters</a>
-                </td>
-            </tr>
+            @if (Episodes != null)
+            {
+                @foreach (var episode in Episodes!)
+                {
+                    <tr>
+                        <th scope="row">@episode.Id</th>
+                        <td>@episode.Name</td>
+                        <td>@episode.Air_date</td>
+                        <td>
+                            <a class="btn btn-info" href="/character">Characters</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    Loading ...
+                </tr>
+            }
         </tbody>
     </table>
 
@@ -80,7 +60,7 @@
 
 @code
 {
-    public List<Episode>? Episodes  { get; set; }
+    public List<ApiEpisode>? Episodes  { get; set; }
 
     public List<Characters>? Character { get; set; }
 
@@ -91,28 +71,42 @@
         ConsumeAPI consumeAPI = new ConsumeAPI();
 
         totalPages = await consumeAPI.GetTotalPagesAsync("episode");
-        Episodes = new List<Episode>();
+        Episodes = new List<ApiEpisode>();
         if (totalPages >= 1)
         {
             for (int i = 1; i <= totalPages; i++)
             {
-                Episodes!.AddRange(await consumeAPI.GetDataAsync<Episode>($"episode?page={i}"));
+                Episodes!.AddRange(await consumeAPI.GetDataAsync<ApiEpisode>($"episode?page={i}"));
             }
         }
+        List<string> seasonEpisodes = new List<string>();
 
-         
+        foreach (var item in Episodes)
+        {
+            seasonEpisodes.Add(item.Episode!);
+        }
 
-       //  foreach (var episode in Episodes!)
+        var reso = seasonEpisodes.GroupBy(x => x).Select(y => y.First());
+        //var seasons = seasonEpisodes.Select(x => x).Distinct();
+        //var reso = seasonEpisodes.Distinct().ToList();
+
+       
+        // foreach (var item in reso)
+        // {
+        //     var resu = item.First();
+        // }
+        var t = 0;
+        //  foreach (var episode in Episodes!)
        // {
        //     foreach (var character in episode.ListCharacters!)
        //     {
        //         //Character episodeCharacter = new Character();
-       //          Character = await consumeAPI.ConsumeApiAsync<Characters>(character);
+       //          Character = await consumeAPI.GetDataAsync<Characters>(character);
 
        //      }
 
        // }
 
-       // Character = await consumeAPI.ConsumeApiAsync<Characters>("character");
+       //  Character = await consumeAPI.GetDataAsync<Characters>("character");
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace RickAndMorty.Shared.Data
 {
 
-    public class Location
+    public class ApiLocation
     {
         public int Id { get; set; }
         public string? Name { get; set; }
