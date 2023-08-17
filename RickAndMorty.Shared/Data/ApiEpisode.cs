@@ -9,13 +9,13 @@ namespace RickAndMorty.Shared.Data
 
     public class ApiEpisode
     {
-        public int Id { get; set; }
-        public string? Name { get; set; }
-        public string? Air_date { get; set; }
-        public string? Episode { get; set; }
-        public List<string>? Characters { get; set; }
-        public string? Url { get; set; }
-        public DateTime Created { get; set; }
+        public int id { get; set; }
+        public string? name { get; set; }
+        public string? air_date { get; set; }
+        public string? episode { get; set; }
+        public List<string>? characters { get; set; }
+        public string? url { get; set; }
+        public DateTime created { get; set; }
     }
 
 }

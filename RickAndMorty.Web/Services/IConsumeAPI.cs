@@ -5,8 +5,9 @@ namespace RickAndMorty.Web.Services
     public interface IConsumeAPI
     {
 
-        Task<int> GetTotalPagesAsync(string url);
+        Task<List<T>> GetListDataAsync<T>(string url);
 
-        Task<List<T>> GetDataAsync<T>(string url);
+        Task<T> GetIndividualDataAsync<T>(string url);
+
     }
 }

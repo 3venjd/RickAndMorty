@@ -14,10 +14,13 @@
 <div style="margin-top:10px">
     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
         <option selected>Select season</option>
-        @for (int i = 1; i < 6; i++)
+        @if (seasons != null)
         {
-            <option value="@i">Season @i</option>
-        }
+            @foreach (var season in seasons!)
+            {
+                <option value="@season">Season @season</option>
+            }
+        } 
     </select>
 </div>
 <div>
@@ -36,11 +39,11 @@
                 @foreach (var episode in Episodes!)
                 {
                     <tr>
-                        <th scope="row">@episode.Id</th>
-                        <td>@episode.Name</td>
-                        <td>@episode.Air_date</td>
+                        <th scope="row">@episode.id</th>
+                        <td>@episode.name</td>
+                        <td>@episode.air_date</td>
                         <td>
-                            <a class="btn btn-info" href="/character">Characters</a>
+                            <a class="btn btn-info" href="/character/@episode.id">Characters</a>
                         </td>
                     </tr>
                 }
@@ -62,7 +65,9 @@
 {
     public List<ApiEpisode>? Episodes  { get; set; }
 
-    public List<Characters>? Character { get; set; }
+    public List<ApiCharacters>? Character { get; set; }
+
+    public List<string>? seasons { get; set; }
 
     int totalPages = 0;
 
@@ -70,43 +75,34 @@
     {
         ConsumeAPI consumeAPI = new ConsumeAPI();
 
-        totalPages = await consumeAPI.GetTotalPagesAsync("episode");
+        List<GeneralResponse<ApiEpisode>> GeneralResponse = new List<GeneralResponse<ApiEpisode>>();
+
+        GeneralResponse = await consumeAPI.GetListDataAsync<GeneralResponse<ApiEpisode>>("episode");
         Episodes = new List<ApiEpisode>();
-        if (totalPages >= 1)
+
+        totalPages = GeneralResponse[0].info!.pages;
+
+        Episodes!.AddRange(GeneralResponse[0].results!);
+
+        if (totalPages > 1)
         {
-            for (int i = 1; i <= totalPages; i++)
+            for (int i = 2; i <= totalPages; i++)
             {
-                Episodes!.AddRange(await consumeAPI.GetDataAsync<ApiEpisode>($"episode?page={i}"));
+                List<ApiEpisode> tempListEpisode = new List<ApiEpisode>();
+                var episodesResponse = await consumeAPI.GetListDataAsync<GeneralResponse<ApiEpisode>>($"episode?page={i}");
+                tempListEpisode = episodesResponse[0].results!;
+
+                Episodes!.AddRange(tempListEpisode);
             }
         }
         List<string> seasonEpisodes = new List<string>();
 
         foreach (var item in Episodes)
         {
-            seasonEpisodes.Add(item.Episode!);
+            seasonEpisodes.Add(item.episode!.Substring(1, 2));
         }
 
-        var reso = seasonEpisodes.GroupBy(x => x).Select(y => y.First());
-        //var seasons = seasonEpisodes.Select(x => x).Distinct();
-        //var reso = seasonEpisodes.Distinct().ToList();
-
-       
-        // foreach (var item in reso)
-        // {
-        //     var resu = item.First();
-        // }
-        var t = 0;
-        //  foreach (var episode in Episodes!)
-       // {
-       //     foreach (var character in episode.ListCharacters!)
-       //     {
-       //         //Character episodeCharacter = new Character();
-       //          Character = await consumeAPI.GetDataAsync<Characters>(character);
-
-       //      }
-
-       // }
-
-       //  Character = await consumeAPI.GetDataAsync<Characters>("character");
+        seasons = seasonEpisodes.Distinct().ToList();
+       //pasar Id de episodio y en la pagina de characteres buscar por episodio los caracteres y usar get multiple characteres
     }
 }

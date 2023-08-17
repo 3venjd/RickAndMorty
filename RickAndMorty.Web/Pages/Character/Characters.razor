@@ -1,4 +1,18 @@
-﻿@page "/character"
+﻿@page "/character/{EpisodeId:int}"
+@using RickAndMorty.Shared.Data;
+@using RickAndMorty.Web.Services;
+
+@if (Episode is null)
+{
+    <h1>Loading...</h1>
+}
+else
+{
+    <h2>Episode @EpisodeId: <b>@Episode.name</b></h2>
+}
+
+
+
 
 <table class="table align-middle mb-0 bg-white">
     <thead class="bg-light">
@@ -12,170 +26,55 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>
-                <div class="d-flex align-items-center">
 
-                    <img src="https://rickandmortyapi.com/api/character/avatar/1.jpeg"
-                         alt=""
-                         style="width: 100px; height: 100px"
-                         class="rounded-circle" />
-                    <div class="ms-3">
-                        <p class="fw-bold mb-1">Rick Sanchez</p>
-                    </div>
-                </div>
-            </td>
-            <td>
-                <p class="fw-normal mb-1">Alive</p>
-            </td>
-            <td>
-                <p class="fw-normal mb-1">Human</p>
-                <p class="fw-normal mb-1">Male</p>
-            </td>
-            <td>Unknown</td>
-            <td>
-                <a href="/location" class="btn btn-link btn-sm btn-rounded">
-                    Earth (C-137)
-                </a>
-            </td>
-            <td>
-                <a href="/location" class="btn btn-link btn-sm btn-rounded">
-                    Citadel of Ricks
-                </a>
-            </td>
-        </tr>
+        @if (ListCharacters == null)
+        {
+            <tr>
+                <td>
+                    Loading...
+                </td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var character in ListCharacters)
+            {
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
 
-        <tr>
-            <td>
-                <div class="d-flex align-items-center">
+                            <img src=@character.image
+                                 alt=""
+                                 style="width: 100px; height: 100px"
+                                 class="rounded-circle" />
+                            <div class="ms-3">
+                                <p class="fw-bold mb-1">@character.name</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <p class="fw-normal mb-1">@character.status</p>
+                    </td>
+                    <td>
+                        <p class="fw-normal mb-1">@character.species</p>
+                        <p class="fw-normal mb-1">@character.gender</p>
+                    </td>
+                    <td>Unknown</td>
+                    <td>
+                        <a href="/location" class="btn btn-link btn-sm btn-rounded">
+                            @character.origin!.name
+                        </a>
+                    </td>
+                    <td>
+                        <a href="/location" class="btn btn-link btn-sm btn-rounded">
+                            @character.location!.name
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
 
-                    <img src="https://rickandmortyapi.com/api/character/avatar/2.jpeg"
-                         alt=""
-                         style="width: 100px; height: 100px"
-                         class="rounded-circle" />
-                    <div class="ms-3">
-                        <p class="fw-bold mb-1">Morty Smith</p>
-                    </div>
-                </div>
-            </td>
-            <td>
-                <p class="fw-normal mb-1">Alive</p>
-            </td>
-            <td>
-                <p class="fw-normal mb-1">Human</p>
-                <p class="fw-normal mb-1">Male</p>
-            </td>
-            <td>Unknown</td>
-            <td>
-                <a href="/location" class="btn btn-link btn-sm btn-rounded">
-                    Unknown
-                </a>
-            </td>
-            <td>
-                <a href="/location" class="btn btn-link btn-sm btn-rounded">
-                    Citadel of Ricks
-                </a>
-            </td>
-        </tr>
-
-        <tr>
-            <td>
-                <div class="d-flex align-items-center">
-
-                    <img src="https://rickandmortyapi.com/api/character/avatar/3.jpeg"
-                         alt=""
-                         style="width: 100px; height: 100px"
-                         class="rounded-circle" />
-                    <div class="ms-3">
-                        <p class="fw-bold mb-1">Summer Smith</p>
-                    </div>
-                </div>
-            </td>
-            <td>
-                <p class="fw-normal mb-1">Alive</p>
-            </td>
-            <td>
-                <p class="fw-normal mb-1">Human</p>
-                <p class="fw-normal mb-1">Female</p>
-            </td>
-            <td>Unknown</td>
-            <td>
-                <a href="/location" class="btn btn-link btn-sm btn-rounded">
-                    Earth (Replacement Dimension)
-                </a>
-            </td>
-            <td>
-                <a href="/location" class="btn btn-link btn-sm btn-rounded">
-                    Earth (Replacement Dimension)
-                </a>
-            </td>
-        </tr>
-
-        <tr>
-            <td>
-                <div class="d-flex align-items-center">
-
-                    <img src="https://rickandmortyapi.com/api/character/avatar/4.jpeg"
-                         alt=""
-                         style="width: 100px; height: 100px"
-                         class="rounded-circle" />
-                    <div class="ms-3">
-                        <p class="fw-bold mb-1">Beth Smith</p>
-                    </div>
-                </div>
-            </td>
-            <td>
-                <p class="fw-normal mb-1">Alive</p>
-            </td>
-            <td>
-                <p class="fw-normal mb-1">Human</p>
-                <p class="fw-normal mb-1">Female</p>
-            </td>
-            <td>Unknown</td>
-            <td>
-                <a href="/location" class="btn btn-link btn-sm btn-rounded">
-                    Earth (Replacement Dimension)
-                </a>
-            </td>
-            <td>
-                <a href="/location" class="btn btn-link btn-sm btn-rounded">
-                    Earth (Replacement Dimension)
-                </a>
-            </td>
-        </tr>
-
-        <tr>
-            <td>
-                <div class="d-flex align-items-center">
-
-                    <img src="https://rickandmortyapi.com/api/character/avatar/5.jpeg"
-                         alt=""
-                         style="width: 100px; height: 100px"
-                         class="rounded-circle" />
-                    <div class="ms-3">
-                        <p class="fw-bold mb-1">Jerry Smith</p>
-                    </div>
-                </div>
-            </td>
-            <td>
-                <p class="fw-normal mb-1">Alive</p>
-            </td>
-            <td>
-                <p class="fw-normal mb-1">Human</p>
-                <p class="fw-normal mb-1">Male</p>
-            </td>
-            <td>Unknown</td>
-            <td>
-                <a  href="/location" class="btn btn-link btn-sm btn-rounded">
-                    Earth (Replacement Dimension)
-                </a>
-            </td>
-            <td>
-                <a href="/location" class="btn btn-link btn-sm btn-rounded">
-                    Earth (Replacement Dimension)
-                </a>
-            </td>
-        </tr>
+        
     </tbody>
 </table>
 
@@ -184,4 +83,29 @@
 
 @code {
 
+    [Parameter]
+    public int EpisodeId { get; set; }
+
+    public ApiEpisode? Episode { get; set; }
+
+    public List<ApiCharacters>? ListCharacters { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        ConsumeAPI consumeAPI = new ConsumeAPI();
+
+        Episode = await consumeAPI.GetIndividualDataAsync<ApiEpisode>($"episode/{EpisodeId}");
+
+        string CharacterIds = string.Empty;
+
+        foreach (var charac in Episode.characters!)
+        {
+            int loc = charac.IndexOf("er/") + 3;
+            CharacterIds = CharacterIds + charac.Substring(loc, (charac.Length - loc)) + ",";
+
+        }
+        CharacterIds = CharacterIds.Substring(0, CharacterIds.Length - 1);
+
+        ListCharacters = await consumeAPI.GetListDataAsync<ApiCharacters>($"character/{CharacterIds}");
+    }
 }

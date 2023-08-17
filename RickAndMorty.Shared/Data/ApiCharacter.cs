@@ -7,20 +7,20 @@ using System.Threading.Tasks;
 namespace RickAndMorty.Shared.Data
 {
 
-    public class Characters
+    public class ApiCharacters
     {
-        public int Id { get; set; }
-        public string? Name { get; set; }
-        public string? Status { get; set; }
-        public string? Species { get; set; }
-        public string? Type { get; set; }
-        public string? Gender { get; set; }
-        public ApiOrigin? OriginName { get; set; }
-        public ApiLocation? LocationName { get; set; }
-        public string? Image { get; set; }
-        public ICollection<ApiEpisode>? Episode { get; set; }
-        public string? Url { get; set; }
-        public DateTime Created { get; set; }
+        public int id { get; set; }
+        public string? name { get; set; }
+        public string? status { get; set; }
+        public string? species { get; set; }
+        public string? type { get; set; }
+        public string? gender { get; set; }
+        public ApiOrigin? origin { get; set; }
+        public ApiLocation? location { get; set; }
+        public string? image { get; set; }
+        public ICollection<string>? episode { get; set; }
+        public string? url { get; set; }
+        public DateTime created { get; set; }
     }
 
 }

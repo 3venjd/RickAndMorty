@@ -1,53 +1,52 @@
-﻿using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using RickAndMorty.Shared.Data;
+﻿using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace RickAndMorty.Web.Services
 {
     public class ConsumeAPI : IConsumeAPI
     {
 
-
-        public async Task<List<T>> GetDataAsync<T>(string data)
+        public async Task<T> GetIndividualDataAsync<T>(string data)
         {
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync($"https://rickandmortyapi.com/api/{data}"))
+                using (var responseHttp = await httpClient.GetAsync($"https://rickandmortyapi.com/api/{data}"))
                 {
+                    var apiResponse = await responseHttp.Content.ReadAsStringAsync();
+                    var jsonSerializer = JsonSerializer.Deserialize<T>(apiResponse);
+                    return jsonSerializer!;
+                }
 
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    JObject obj = JObject.Parse(apiResponse);
-                    JToken test = "";
-                    List<T> a = new List<T>();
+            }
+        }
 
-                    if (obj["results"] != null)
+        public async Task<List<T>> GetListDataAsync<T>(string data)
+        {
+
+            var val = data.Split('/');
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var responseHttp = await httpClient.GetAsync($"https://rickandmortyapi.com/api/{data}"))
+                {
+                    var apiResponse = await responseHttp.Content.ReadAsStringAsync();
+
+                    if (val.Count() < 2)
                     {
-                        test = obj["results"]!;
-                        a = JsonConvert.DeserializeObject<List<T>>(test.ToString())!;
+                        var jsonSerializer = JsonSerializer.Deserialize<T>(apiResponse);
+                        List<T> r = new List<T>();
+                        r.Add(jsonSerializer!);
+                        return r;
                     }
-                    else 
+                    else
                     {
-                        a = JsonConvert.DeserializeObject<List<T>>(apiResponse)!;
+                        var jsonSerializer = JsonSerializer.Deserialize<List<T>>(apiResponse);
+                        return jsonSerializer!;
                     }
-
-                    return a;
                 }
             }
         }
 
-        public async Task<int> GetTotalPagesAsync(string data)
-        {
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync($"https://rickandmortyapi.com/api/{data}"))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    JObject obj = JObject.Parse(apiResponse);
-                    var pres =  obj["info"]!["pages"]!;
-                    var  res = JsonConvert.DeserializeObject<int>(pres.ToString())!;
-                    return res;
-                }
-            }
-        }
+
     }
 }
