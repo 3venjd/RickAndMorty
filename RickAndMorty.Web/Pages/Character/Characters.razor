@@ -61,19 +61,19 @@ else
                     </td>
                     <td>Unknown</td>
                     <td>
-                        <a href="/location" class="btn btn-link btn-sm btn-rounded">
+                        <a id="OriginName" href="/location/@character.origin!.url" class="btn btn-link btn-sm btn-rounded">
                             @character.origin!.name
                         </a>
                     </td>
                     <td>
-                        <a href="/location" class="btn btn-link btn-sm btn-rounded">
+                        <a id="OriginName" href="/location/@character.location!.url" class="btn btn-link btn-sm btn-rounded">
                             @character.location!.name
                         </a>
                     </td>
                 </tr>
             }
         }
-
+       
         
     </tbody>
 </table>
@@ -86,13 +86,18 @@ else
     [Parameter]
     public int EpisodeId { get; set; }
 
+
     public ApiEpisode? Episode { get; set; }
 
     public List<ApiCharacters>? ListCharacters { get; set; }
 
+    public ApiLocation? Location { get; set; }
+
+    ConsumeAPI consumeAPI = new ConsumeAPI();
+
     protected override async Task OnInitializedAsync()
     {
-        ConsumeAPI consumeAPI = new ConsumeAPI();
+
 
         Episode = await consumeAPI.GetIndividualDataAsync<ApiEpisode>($"episode/{EpisodeId}");
 
@@ -104,8 +109,38 @@ else
             CharacterIds = CharacterIds + charac.Substring(loc, (charac.Length - loc)) + ",";
 
         }
+
         CharacterIds = CharacterIds.Substring(0, CharacterIds.Length - 1);
 
         ListCharacters = await consumeAPI.GetListDataAsync<ApiCharacters>($"character/{CharacterIds}");
+
+        for (int i = 0; i < ListCharacters.Count; i++)
+        {
+            if (string.IsNullOrEmpty(ListCharacters[i].location!.url!))
+            {
+                ListCharacters[i].location!.url = "0";
+            }
+            else
+            {
+                string urlLocation = ListCharacters[i].location!.url!;
+                int indx = urlLocation!.IndexOf("on/") + 3;
+                int urlLength = ListCharacters[i].location!.url!.Length;
+                ListCharacters[i].location!.url = ListCharacters[i].location!.url!.Substring(indx, (urlLength - indx));
+            }
+           
+            if (string.IsNullOrEmpty(ListCharacters[i].origin!.url!))
+            {
+                ListCharacters[i].origin!.url = "0";
+            }
+            else
+            {
+                string urlLocation = ListCharacters[i].origin!.url!;
+                int indx = urlLocation!.IndexOf("on/") + 3;
+                int urlLength = ListCharacters[i].origin!.url!.Length;
+                ListCharacters[i].origin!.url = ListCharacters[i].origin!.url!.Substring(indx, (urlLength - indx));
+            }
+        }
+
     }
 }
+

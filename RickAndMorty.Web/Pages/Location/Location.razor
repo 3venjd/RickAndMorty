@@ -1,4 +1,4 @@
-﻿@page "/Location"
+﻿@page "/Location/{LocationId:int}"
 
 <style>
     section{
@@ -110,5 +110,6 @@
 </section>
 
 @code {
-
+    [Parameter]
+    public int LocationId { get; set; }
 }
