@@ -1,4 +1,6 @@
 ﻿@page "/Location/{LocationId:int}"
+@using RickAndMorty.Shared.Data;
+@using RickAndMorty.Web.Services;
 
 <style>
     section{
@@ -28,88 +30,133 @@
 
 </style>
 
-<h1>Earth (C-137)</h1>
-<h3>
-    Dimension C-137
-</h3>
+@if (@thisLocation == null)
+{
+    <h1>Loading...</h1>
+}
+else
+{
+    <h1>@thisLocation.name</h1>
+    <h3>
+        @thisLocation.dimension
+    </h3>
 
-<h3>
-    Type: Planet
+    <h3>
+        Type: @thisLocation.type
 
-</h3>
+    </h3>
 
-<br />
+    <br />
 
-<h5>Residents</h5>
+    <h5>Residents</h5>
 
-<section >
-    <div>
-        <img class="sectionImages" src="https://rickandmortyapi.com/api/character/avatar/1.jpeg" />
-        <br />
-        <a>Rick Sanchez</a>
-    </div>
-    
-    <div>
-        <img class="sectionImages" src="https://rickandmortyapi.com/api/character/avatar/2.jpeg" />
-        <br />
-        <a>Morty Smith</a>
-    </div>
+    <section>
 
-    <div>
-        <img class="sectionImages" src="https://rickandmortyapi.com/api/character/avatar/3.jpeg" />
-        <br />
-        <a>Summer Smith</a>
-    </div>
+        @if (ListCharacters != null)
+        {
+            @foreach (var resi in ListCharacters!)
+            {
+                <div>
+                    <img class="sectionImages" src="@resi.image" />
+                    <br />
+                    <a>@resi.name</a>
+                </div>
+            }
+        }
 
-    <div>
-        <img class="sectionImages" src="https://rickandmortyapi.com/api/character/avatar/4.jpeg" />
-        <br />
-        <a>Beth Smith</a>
-    </div>
-
-    <div>
-        <img class="sectionImages" src="https://rickandmortyapi.com/api/character/avatar/5.jpeg" />
-        <br />
-        <a>Jerry Smith</a>
-    </div>
-</section>
+        
+    </section>
 
 
-<h2>They born here</h2>
+   <h2>They born here</h2>
 
-<section>
-    <div>
-        <img class="sectionImages" src="https://rickandmortyapi.com/api/character/avatar/1.jpeg" />
-        <br />
-        <a>Rick Sanchez</a>
-    </div>
+    <section>
+        <div>
+            <img class="sectionImages" src="https://rickandmortyapi.com/api/character/avatar/1.jpeg" />
+            <br />
+            <a>Rick Sanchez</a>
+        </div>
 
-    <div>
-        <img class="sectionImages" src="https://rickandmortyapi.com/api/character/avatar/2.jpeg" />
-        <br />
-        <a>Morty Smith</a>
-    </div>
+        <div>
+            <img class="sectionImages" src="https://rickandmortyapi.com/api/character/avatar/2.jpeg" />
+            <br />
+            <a>Morty Smith</a>
+        </div>
 
-    <div>
-        <img class="sectionImages" src="https://rickandmortyapi.com/api/character/avatar/3.jpeg" />
-        <br />
-        <a>Summer Smith</a>
-    </div>
+        <div>
+            <img class="sectionImages" src="https://rickandmortyapi.com/api/character/avatar/3.jpeg" />
+            <br />
+            <a>Summer Smith</a>
+        </div>
 
-    <div>
-        <img class="sectionImages" src="https://rickandmortyapi.com/api/character/avatar/4.jpeg" />
-        <br />
-        <a>Beth Smith</a>
-    </div>
+        <div>
+            <img class="sectionImages" src="https://rickandmortyapi.com/api/character/avatar/4.jpeg" />
+            <br />
+            <a>Beth Smith</a>
+        </div>
 
-    <div>
-        <img class="sectionImages" src="https://rickandmortyapi.com/api/character/avatar/5.jpeg" />
-        <br />
-        <a>Jerry Smith</a>
-    </div>
-</section>
+        <div>
+            <img class="sectionImages" src="https://rickandmortyapi.com/api/character/avatar/5.jpeg" />
+            <br />
+            <a>Jerry Smith</a>
+        </div> 
+    </section>
+}
+
+
 
 @code {
     [Parameter]
     public int LocationId { get; set; }
+
+    public ApiLocation? thisLocation { get; set; }
+
+    public List<ApiCharacters>? ListCharacters { get; set; }
+
+    ApiCharacters oneCharacter = new ApiCharacters();
+
+    ConsumeAPI consumeAPI = new ConsumeAPI();
+
+    protected override async Task OnInitializedAsync()
+    {
+        thisLocation = await consumeAPI.GetIndividualDataAsync<ApiLocation>($"location/{LocationId}");
+
+        string CharacterIds = string.Empty;
+
+        if (thisLocation.residents!.Count < 1)
+        {
+            ListCharacters = new List<ApiCharacters>{(
+                new ApiCharacters(){ name = "Nobody lives here...", image ="https://images.ctfassets.net/cnu0m8re1exe/6Pi7OP1AvToHhygPXUh0Ej/b299c81fa674311d271e4c19d96f7027/dino_skull.jpg?fm=jpg&fl=progressive&w=660&h=433&fit=fill"}
+            ) };
+        }
+        else
+        {
+            foreach (var resi in thisLocation.residents!)
+            {
+                int loc = resi.IndexOf("er/") + 3;
+                CharacterIds = CharacterIds + resi.Substring(loc, (resi.Length - loc)) + ",";
+
+            }
+
+            CharacterIds = CharacterIds.Substring(0, CharacterIds.Length - 1);
+
+
+            if (!CharacterIds.Contains(","))
+            {
+
+                oneCharacter = await consumeAPI.GetIndividualDataAsync<ApiCharacters>($"character/{CharacterIds}");
+                ListCharacters = new List<ApiCharacters>();
+                ListCharacters!.Add(oneCharacter);
+            }
+            else
+            {
+                ListCharacters = await consumeAPI.GetListDataAsync<ApiCharacters>($"character/{CharacterIds}");
+            }
+        }
+
+        
+        
+
+    }
+
 }
