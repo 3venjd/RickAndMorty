@@ -12,13 +12,13 @@
 </div>
 
 <div style="margin-top:10px">
-    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+    <select @onchange="seasonSelected" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
         <option selected>Select season</option>
         @if (seasons != null)
         {
             @foreach (var season in seasons!)
             {
-                <option value="@season">Season @season</option>
+                <option value="@string.Concat("S",@season)">Season @season</option>
             }
         } 
     </select>
@@ -65,11 +65,17 @@
 {
     public List<ApiEpisode>? Episodes  { get; set; }
 
+    public List<ApiEpisode>? bkEpisodes { get; set; }
+
     public List<ApiCharacters>? Character { get; set; }
 
     public List<string>? seasons { get; set; }
 
+    int totalEpisodes = 0;
+
     int totalPages = 0;
+
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -103,5 +109,19 @@
         }
 
         seasons = seasonEpisodes.Distinct().ToList();
+        totalEpisodes = Episodes.Count;
+        bkEpisodes = Episodes;
+    }
+
+    public void seasonSelected(ChangeEventArgs args)
+    {
+        
+        if (Episodes!.Count < totalEpisodes)
+        {
+            Episodes = bkEpisodes;
+        }
+        var season = args.Value as string;
+        
+        Episodes = Episodes!.Select(x => x).Where(x => x.episode![0..3].Equals(season)).ToList();
     }
 }
