@@ -6,6 +6,13 @@ namespace RickAndMorty.Web.Services
     public class ConsumeAPI : IConsumeAPI
     {
 
+        private readonly HttpClient _httpClient;
+
+        //public ConsumeAPI(HttpClient httpClient)
+        //{
+        //    _httpClient = httpClient;
+        //}
+
         public async Task<T> GetIndividualDataAsync<T>(string data)
         {
             using (var httpClient = new HttpClient())
