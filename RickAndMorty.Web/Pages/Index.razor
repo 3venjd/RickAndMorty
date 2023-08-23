@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using RickAndMorty.Shared.Data;
 @using RickAndMorty.Web.Services;
+@inject IConsumeAPI consumeAPI;
 
 <PageTitle>Rick And Morty</PageTitle>
 
@@ -79,24 +80,23 @@
 
     protected override async Task OnInitializedAsync()
     {
-        ConsumeAPI consumeAPI = new ConsumeAPI();
+        GeneralResponse<ApiEpisode> GenResponse = new GeneralResponse<ApiEpisode>();
 
-        List<GeneralResponse<ApiEpisode>> GeneralResponse = new List<GeneralResponse<ApiEpisode>>();
+        GenResponse = await consumeAPI.GetListDataAsync<ApiEpisode>("episode");
 
-        GeneralResponse = await consumeAPI.GetListDataAsync<GeneralResponse<ApiEpisode>>("episode");
+        totalPages = GenResponse.info!.pages;
+
         Episodes = new List<ApiEpisode>();
 
-        totalPages = GeneralResponse[0].info!.pages;
-
-        Episodes!.AddRange(GeneralResponse[0].results!);
+        Episodes!.AddRange(GenResponse.results!);
 
         if (totalPages > 1)
         {
             for (int i = 2; i <= totalPages; i++)
             {
                 List<ApiEpisode> tempListEpisode = new List<ApiEpisode>();
-                var episodesResponse = await consumeAPI.GetListDataAsync<GeneralResponse<ApiEpisode>>($"episode?page={i}");
-                tempListEpisode = episodesResponse[0].results!;
+                var episodesResponse = await consumeAPI.GetListDataAsync<ApiEpisode>($"episode?page={i}");
+                tempListEpisode = episodesResponse.results!;
 
                 Episodes!.AddRange(tempListEpisode);
             }

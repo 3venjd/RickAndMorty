@@ -101,7 +101,7 @@ else
 
     ApiCharacters oneCharacter = new ApiCharacters();
 
-    ConsumeAPI consumeAPI = new ConsumeAPI();
+    //ConsumeAPI consumeAPI = new ConsumeAPI();
 
     int totalPages = 0;
 
@@ -138,34 +138,29 @@ else
             }
             else
             {
-                ListCharacters = await consumeAPI.GetListDataAsync<ApiCharacters>($"character/{CharacterIds}");
+                ListCharacters = await consumeAPI.GetListByEntity<ApiCharacters>($"character/{CharacterIds}");
             }
         }
 
 
-        List<GeneralResponse<ApiCharacters>> GeneralResponse = new List<GeneralResponse<ApiCharacters>>();
+        GeneralResponse<ApiCharacters> GeneralResponse = new GeneralResponse<ApiCharacters>();
 
-        GeneralResponse = await consumeAPI.GetListDataAsync<GeneralResponse<ApiCharacters>>("character");
+        GeneralResponse = await consumeAPI.GetListDataAsync<ApiCharacters>("character");
         ListOriginCharacters = new List<ApiCharacters>();
 
-        totalPages = GeneralResponse[0].info!.pages;
+        totalPages = GeneralResponse.info!.pages;
 
-        ListOriginCharacters!.AddRange(GeneralResponse[0].results!);
+        ListOriginCharacters!.AddRange(GeneralResponse.results!);
 
         if (totalPages > 1)
         {
             for (int i = 2; i <= totalPages; i++)
             {
-                List<ApiCharacters> tempListOriginCharacters = new List<ApiCharacters>();
-                var characterOriginResponse = await consumeAPI.GetListDataAsync<GeneralResponse<ApiCharacters>>($"character?page={i}");
-                tempListOriginCharacters = characterOriginResponse[0].results!;
-                ListOriginCharacters!.AddRange(tempListOriginCharacters);
+                var characterOriginResponse = await consumeAPI.GetListDataAsync<ApiCharacters>($"character?page={i}");
+                ListOriginCharacters!.AddRange(characterOriginResponse.results!);
 
             }
-
             ListOriginCharacters = ListOriginCharacters.Select(x => x).Where(y => y.origin?.url == $"https://rickandmortyapi.com/api/location/{LocationId}").ToList();
-
-            var x = 0;
 
         }
         

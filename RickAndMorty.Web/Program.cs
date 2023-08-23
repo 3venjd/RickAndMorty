@@ -12,7 +12,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(
     sp => new HttpClient 
     { 
-        BaseAddress = new Uri("https://rickandmortyapi.com/api") ,
+        BaseAddress = new Uri("https://rickandmortyapi.com/api/") ,
         
     });
 
