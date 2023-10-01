@@ -2,11 +2,11 @@
 
 This is a basic project to practice:
 
-- Api Consume
-- Drawing with razon and html
-- Implementing interfaces
-- Apply Desing Patters
-- Aplly Solid principles
+- Api Consume ✅
+- Drawing with razor and html ✅
+- Implementing interfaces ✅
+- Apply Desing Patters 🛠️
+- Aplly Solid principles 🛠️
 
 
 
