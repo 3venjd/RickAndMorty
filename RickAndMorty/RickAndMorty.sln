@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RickAndMorty.Shared", "..\RickAndMorty.Shared\RickAndMorty.Shared.csproj", "{041D65AA-A200-4BE4-BC47-784B6C9885B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RickAndMorty.Domain", "..\RickAndMorty.Shared\RickAndMorty.Domain.csproj", "{041D65AA-A200-4BE4-BC47-784B6C9885B3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RickAndMorty.Web", "..\RickAndMorty.Web\RickAndMorty.Web.csproj", "{2106B555-2FEC-4A68-BC9F-09F6E615DCB9}"
 EndProject

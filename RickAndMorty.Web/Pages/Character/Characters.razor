@@ -97,8 +97,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-
-
         Episode = await consumeAPI.GetIndividualDataAsync<ApiEpisode>($"episode/{EpisodeId}");
 
         string CharacterIds = string.Empty;

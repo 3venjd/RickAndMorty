@@ -101,8 +101,6 @@ else
 
     ApiCharacters oneCharacter = new ApiCharacters();
 
-    //ConsumeAPI consumeAPI = new ConsumeAPI();
-
     int totalPages = 0;
 
     protected override async Task OnInitializedAsync()
@@ -141,8 +139,6 @@ else
                 ListCharacters = await consumeAPI.GetListByEntity<ApiCharacters>($"character/{CharacterIds}");
             }
         }
-
-
         GeneralResponse<ApiCharacters> GeneralResponse = new GeneralResponse<ApiCharacters>();
 
         GeneralResponse = await consumeAPI.GetListDataAsync<ApiCharacters>("character");
@@ -161,13 +157,7 @@ else
 
             }
             ListOriginCharacters = ListOriginCharacters.Select(x => x).Where(y => y.origin?.url == $"https://rickandmortyapi.com/api/location/{LocationId}").ToList();
-
         }
-        
-
-
-        
-
     }
 
 }

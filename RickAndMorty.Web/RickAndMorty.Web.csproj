@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RickAndMorty.Shared\RickAndMorty.Shared.csproj" />
+    <ProjectReference Include="..\RickAndMorty.Shared\RickAndMorty.Domain.csproj" />
   </ItemGroup>
 
 </Project>
